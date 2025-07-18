@@ -31,7 +31,7 @@ Add `zig-colors` to your `build.zig.zon`:
     .dependencies = .{
         .@"zig-colors" = .{
             .url = "https://github.com/thomasfazzari1/zig-colors/archive/refs/tags/v0.1.0.tar.gz",
-            .hash = "1220...", // Use `zig fetch` to get the hash
+            .hash = "1220331bffdeca5488ee0a3a73f9c274f9856b63006d22b7fa2b810eb8a3fb9db867",
         },
     },
 }

@@ -197,7 +197,12 @@ test "color support detection" {
 }
 
 test "manual enable/disable" {
-    colors.init();
+    // Test with forced initialization first
+    setupTestEnvironment();
+
+    const initial_text = try std.fmt.allocPrint(testing.allocator, "{}", .{colors.red.call("Test")});
+    defer testing.allocator.free(initial_text);
+    try testing.expect(std.mem.indexOf(u8, initial_text, "\x1b[") != null);
 
     // Test disabling colors
     colors.setEnabled(false);

@@ -8,29 +8,24 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        zig-version: [0.13.0]
+    runs-on: ${{ matrix.os }}
 
     steps:
       - uses: actions/checkout@v4
 
       - uses: goto-bus-stop/setup-zig@v2
         with:
-          version: 0.13.0
+          version: ${{ matrix.zig-version }}
 
-      - name: Version info
-        run: |
-          zig version
-          echo "PWD: $(pwd)"
-          ls -la
-          echo "--- src/ contents ---"
-          ls -la src/
-          echo "--- tests/ contents ---"
-          ls -la tests/
-
-      - name: Run tests with verbose output
-        run: zig build test --verbose
-        env:
-          CI: true
+      - name: Run tests
+        run: zig build test
 
       - name: Check formatting
         run: zig fmt --check src/
+
+      - name: Build
+        run: zig build -Doptimize=ReleaseSafe
